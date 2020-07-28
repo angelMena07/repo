@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TareaMovilITIC92.Data;
 using Xamarin.Forms;
-
+using Xamarin.Forms.Xaml;
 namespace TareaMovilITIC92
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
@@ -21,20 +23,24 @@ namespace TareaMovilITIC92
 
         public MainPage()
         {
+            BindingContext = tareas;
             InitializeComponent();
             OnAppearing();
-            BindingContext = tareas;
+            
         }
-        protected override async void OnAppearing()
+        async void OnRefresh(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            await OnRefresh();
+             onRefresh();
         }
-        async public Task OnRefresh()
+
+        async private void onRefresh()
         {
             var tareasCollection = await manager.GetAll();
-            tareasList.ItemsSource = tareasCollection.OrderBy(item => item.Id).ToList();
-
+            tareas.Clear();
+            foreach (Tarea tarea in tareasCollection)
+            {
+                tareas.Add(tarea);
+            }
         }
         async public void OnAddTarea(object sender, EventArgs e)
         {
@@ -46,7 +52,7 @@ namespace TareaMovilITIC92
             var mi = (MenuItem)sender;
             Tarea tarea = (Tarea)mi.CommandParameter;
             await Navigation.PushAsync(new UpdateTarea(manager, tarea));
-            await OnRefresh();
+            
 
         }
 
@@ -59,7 +65,7 @@ namespace TareaMovilITIC92
             if (ans == true)
             {
                 await manager.DeleteTareaAsync(itemToDelete);
-                await OnRefresh();
+                
 
             }
             else { }

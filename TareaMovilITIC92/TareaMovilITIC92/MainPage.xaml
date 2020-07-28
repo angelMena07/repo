@@ -4,20 +4,25 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="TareaMovilITIC92.MainPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Agregar" Clicked="OnAddTarea"/>
-        <ToolbarItem Text="Actualizar" Clicked="OnRefresh"/>
+             x:Class="TareaMovilITIC92.MainPage"
+             Title="Tareas"
+             >
+    <ContentPage.ToolbarItems  >
+        <ToolbarItem  Text="Agregar" Clicked="OnAddTarea"/>
+        <ToolbarItem  Text="Actualizar" Clicked="OnRefresh"/>
     </ContentPage.ToolbarItems>
 
-    <ListView ItemsSource="{Binding}">
+    <ListView ItemsSource="{Binding }" x:Name="tareasList" BackgroundColor="LightGray" ItemTapped="ItemTappedDetail" >
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Titulo}" Detail="{Binding Detalle}"></TextCell>
-
-
+                <TextCell Text="{Binding Titulo}" Detail="{Binding FechaEntrega}" >
+                    <TextCell.ContextActions>
+                        <MenuItem CommandParameter="{Binding}"  Clicked="OnDeleteTarea" Text="Eliminar" IsDestructive="True" />
+                        <MenuItem CommandParameter="{Binding}"  Clicked="OnUpdateTarea" Text="Editar" IsDestructive="True"/>
+                    </TextCell.ContextActions>
+                </TextCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-    </ListView>
 
+    </ListView>
 </ContentPage>

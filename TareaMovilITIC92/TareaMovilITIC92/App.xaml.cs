@@ -15,6 +15,7 @@ namespace TareaMovilITIC92
 
         protected override void OnStart()
         {
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnSleep()

@@ -10,7 +10,7 @@ namespace TareaMovilITIC92.Data
    
         public class TareaManager
         {
-            const string url = "http://192.168.0.102:3000/tareas/";
+            const string url = "http://192.168.1.72:3000/tareas/";
 
             public async Task<IEnumerable<Tarea>> GetAll()
             {
