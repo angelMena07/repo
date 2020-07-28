@@ -6,14 +6,13 @@
              mc:Ignorable="d"
              x:Class="TareaMovilITIC92.AddTarea">
     <ContentPage.Content>
-        <StackLayout Spacing="30">
-            <Label Text="Tarea" FontSize="Title" />
-            <Entry x:Name="txtTitulo" Placeholder="Titulo" />
-            <Entry x:Name="txtDetalle" Placeholder="Detalle" />
-            <Entry x:Name="txtValor" Placeholder="Valor" />
-            <DatePicker x:Name="txtFechaEntrega"  />
-            <Button x:Name="btnGuardar" Text="Guardar" Clicked="OnSaveTarea"/>
-
+        <StackLayout Spacing="20">
+            <Label Text="Nueva tarea!" FontSize="Title" />
+            <Entry x:Name="txtTitulo" Placeholder="Ingresa el titulo"/>
+            <Entry x:Name="txtDetalle" Placeholder="Ingresa el detalle"/>
+            <Entry x:Name="txtLugar" Placeholder="Ingresa el lugar"/>
+            <Entry x:Name="txtFecha" Placeholder="Ingresa la fecha"/>
+            <Button Clicked="OnSaveTarea" Text="Guardar" x:Name="btnGuardar"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

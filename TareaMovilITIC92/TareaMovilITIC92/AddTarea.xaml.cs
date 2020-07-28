@@ -13,19 +13,15 @@ namespace TareaMovilITIC92
     public partial class AddTarea : ContentPage
     {
         private TareaManager manager;
-        private Tarea tarea;
-
-        public AddTarea(TareaManager manager, Tarea tarea = null)
+        public AddTarea(TareaManager manager)
         {
             InitializeComponent();
-
-            this.tarea = tarea;
             this.manager = manager;
         }
 
-        async public void OnSaveTarea(object sender, EventArgs e)
+        public async void OnSaveTarea(object sender, EventArgs e)
         {
-            await manager.Add(txtTitulo.Text, txtDetalle.Text, txtValor.Text, txtFechaEntrega.Date.ToString());
+            await manager.Add(txtTitulo.Text, txtDetalle.Text, txtLugar.Text, txtFecha.Text);
         }
     }
 }

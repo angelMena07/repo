@@ -1,19 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace TareaMovilITIC92.Data
 {
-   
-        public class TareaManager
-        {
-        public const string url = "http://192.168.1.72:3000/tareas/";
+
+    public class TareaManager
+    {
+        const string url = "http://192.168.1.72:3000/tareas";
+
         public async Task<IEnumerable<Tarea>> GetAll()
         {
             HttpClient client = new HttpClient();
@@ -21,14 +20,14 @@ namespace TareaMovilITIC92.Data
             return JsonConvert.DeserializeObject<IEnumerable<Tarea>>(result);
         }
 
-        public async Task<Tarea> Add(string titulo, string detalle, string valor, string fechaentrega)
+        public async Task<Tarea> Add(string titulo, string detalle, string lugar, string fecha)
         {
             Tarea tarea = new Tarea()
             {
                 Titulo = titulo,
                 Detalle = detalle,
-                Valor = valor,
-                FechaEntrega = fechaentrega,
+                Lugar = lugar,
+                Fecha = fecha
             };
 
             HttpClient client = new HttpClient();
@@ -36,52 +35,33 @@ namespace TareaMovilITIC92.Data
                 new StringContent(
                     JsonConvert.SerializeObject(tarea),
                     Encoding.UTF8, "application/json"));
-
-            return JsonConvert.DeserializeObject<Tarea>(
-                await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<Tarea>(await response.Content.ReadAsStringAsync());
         }
-        public async Task<Tarea> Update(string titulo, string detalle, string valor, string fechaentrega, string itemIndex)
+
+        public async Task<Tarea> Update(long id, string titulo, string detalle, string lugar, string fecha)
         {
             Tarea tarea = new Tarea()
             {
                 Titulo = titulo,
                 Detalle = detalle,
-                Valor = valor,
-                FechaEntrega = fechaentrega,
+                Lugar = lugar,
+                Fecha = fecha
             };
+
             HttpClient client = new HttpClient();
-            var response = await client.PutAsync(url + itemIndex,
+            var response = await client.PutAsync(url + "/" + id,
                 new StringContent(
                     JsonConvert.SerializeObject(tarea),
                     Encoding.UTF8, "application/json"));
-
-            return JsonConvert.DeserializeObject<Tarea>(
-                response.Content.ReadAsStringAsync().Result);
-
-
+            return JsonConvert.DeserializeObject<Tarea>(await response.Content.ReadAsStringAsync());
         }
-        public async Task DeleteTareaAsync(string itemIndex)
+
+        public async Task<Tarea> Delete(long id)
         {
             HttpClient client = new HttpClient();
-            await client.DeleteAsync(string.Concat(url, itemIndex));
-
+            var response = await client.DeleteAsync(url + "/" + id);
+            return JsonConvert.DeserializeObject<Tarea>(await response.Content.ReadAsStringAsync());
         }
-
-        internal Task Add(object text1, object text2, object tex3, object text4)
-        {
-            throw new NotImplementedException();
-
-        }
-        internal Task Update(object text1, object text2, object text3, object text4, string itemIndex)
-        {
-            throw new NotImplementedException();
-
-        }
-
-
-
-
-
     }
 
 }

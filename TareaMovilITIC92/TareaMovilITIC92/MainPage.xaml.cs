@@ -17,69 +17,48 @@ namespace TareaMovilITIC92
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-
         private IList<Tarea> tareas = new ObservableCollection<Tarea>();
         private TareaManager manager = new TareaManager();
         public MainPage()
         {
-            InitializeComponent();
-            OnAppearing();
             BindingContext = tareas;
-
-
+            InitializeComponent();
+            Refresh();
         }
-        protected override async void OnAppearing()
+
+        async void OnRefresh(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            await OnRefresh();
+            Refresh();
         }
 
-        async public Task OnRefresh()
+        async private void Refresh()
         {
             var tareasCollection = await manager.GetAll();
-            tareasList.ItemsSource = tareasCollection.OrderBy(item => item.Id).ToList();
-
-        }
-
-        async public void OnAddTarea(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new AddTarea(manager));
-
-        }
-        async public void OnUpdateTarea(object sender, EventArgs e)
-        {
-            var mi = (MenuItem)sender;
-            Tarea tarea = (Tarea)mi.CommandParameter;
-            await Navigation.PushAsync(new UpdateTarea(manager, tarea));
-            await OnRefresh();
-
-        }
-
-
-
-        async public void OnDeleteTarea(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            Tarea tarea = (Tarea)mi.CommandParameter;
-            string itemToDelete = tarea.Id.ToString();
-            bool ans = await DisplayAlert("Alerta", "¿Desea eliminar la tarea " + tarea.Titulo + "?", "Ok", "Cancelar");
-            if (ans == true)
+            tareas.Clear();
+            foreach (Tarea tarea in tareasCollection)
             {
-                await manager.DeleteTareaAsync(itemToDelete);
-                await OnRefresh();
-
+                tareas.Add(tarea);
             }
-            else { }
-
-
         }
 
-        async public void ItemTappedDetail(object sender, ItemTappedEventArgs e)
+        async private void OnAddTarea(object sender, EventArgs e)
         {
+            await Navigation.PushModalAsync(new AddTarea(manager));
+        }
 
-            var details = e.Item as Tarea;
-            await Navigation.PushAsync(new TareaDetail(details));
+        async private void OnUpdateTarea(object sender, EventArgs e)
+        {
+            var mi = sender as MenuItem;
+            var item = mi.CommandParameter as Tarea;
+            await Navigation.PushModalAsync(new UpdateTarea(manager, item.Id, item.Titulo, item.Detalle, item.Lugar, item.Fecha));
+        }
 
+        async private void OnDeleteTarea(object sender, EventArgs e)
+        {
+            var mi = sender as MenuItem;
+            var item = mi.CommandParameter as Tarea;
+            await manager.Delete(item.Id);
+            Refresh();
         }
     }
 }

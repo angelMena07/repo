@@ -11,29 +11,24 @@ namespace TareaMovilITIC92
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UpdateTarea : ContentPage
-
     {
         private TareaManager manager;
-        private Tarea tarea;
-
-
-        public UpdateTarea(TareaManager manager, Tarea tarea)
+        private long Id;
+        public UpdateTarea(TareaManager manager, long id, string titulo, string detalle, string lugar, string fecha)
         {
-       
             InitializeComponent();
-
-            this.tarea = tarea;
             this.manager = manager;
-            txtTitulo.Text = tarea.Titulo;
-            txtDetalle.Text = tarea.Detalle;
-            txtValor.Text = tarea.Valor;
-            
-           
+            Id = id;
+            txtTitulo.Text = titulo;
+            txtDetalle.Text = detalle;
+            txtLugar.Text = lugar;
+            txtFecha.Text = fecha;
+
         }
 
-        async public void OnUpdateTarea(object sender, EventArgs e)
+        public async void OnUpdateTarea(object sender, EventArgs e)
         {
-            await manager.Update(txtTitulo.Text, txtDetalle.Text,txtValor.Text,txtFechaEntrega.Date.ToString(), tarea.Id.ToString());
+            await manager.Update(Id, txtTitulo.Text, txtDetalle.Text, txtLugar.Text, txtFecha.Text);
         }
     }
 }

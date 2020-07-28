@@ -9,47 +9,38 @@ router.get('/', async function (req, res) {
     res.json(tareas);
 });
 
-/* Post tareas creating. */
+/* GET tareas listing. */
 router.post('/', async function (req, res) {
-    let { Titulo, Detalle, Valor, FechaEntrega } = req.body;
+    let { Titulo, Detalle, Lugar, Fecha } = req.body;
     let tarea = await Tarea.create({
         titulo: Titulo,
         detalle: Detalle,
-        valor: Valor,
-        fechaentrega: FechaEntrega
+        lugar: Lugar,
+        fecha: Fecha
     });
+
     res.json(tarea);
 });
-/* Post tareas deleting. */
-router.delete('/:id', async function (req, res) {
-    const id = parseInt(req.params.id)
-    return await Tarea.findByPk(id)
-        .then((tareita) => tareita.destroy({ force: true }))
-        .then(() => res.send({ id }))
-        .catch((err) => {
-            console.log('Error al eliminar', JSON.stringify(err))
-            res.status(400).send(err)
-        })
-});
 
-/* Post tareas updating. */
+/* PUT tareas listing. */
 router.put('/:id', async function (req, res) {
-    const id = parseInt(req.params.id)
-    return await Tarea.findByPk(id).then((tareita) => {
-        const { Titulo, Detalle, Valor, FechaEntrega } = req.body
-        return tareita.update({
-            titulo: Titulo,
-            detalle: Detalle,
-            valor: Valor,
-            fechaentrega: FechaEntrega
-        })
-            .then(() => res.send(tareita))
-            .catch((err) => {
-                console.log('Error al actualizar', JSON.stringify(err))
-                res.status(400).send(err)
-            })
-    })
+    let id = req.params.id;
+    let { Titulo, Detalle, Lugar, Fecha } = req.body;
+    let tarea = await Tarea.findByPk(id);
+    tarea.titulo = Titulo;
+    tarea.detalle = Detalle;
+    tarea.lugar = Lugar;
+    tarea.fecha = Fecha;
+    await tarea.save();
+    res.json(tarea);
 });
 
+/* DELETE tareas listing. */
+router.delete('/:id', async function (req, res) {
+    let id = req.params.id;
+    let tarea = await Tarea.findByPk(id);
+    tarea.destroy();
+    res.json(tarea);
+});
 
 module.exports = router;
