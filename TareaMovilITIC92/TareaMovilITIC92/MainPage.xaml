@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="TareaMovilITIC92.MainPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Agregar"/>
+        <ToolbarItem Text="Agregar" Clicked="OnAddTarea"/>
         <ToolbarItem Text="Actualizar" Clicked="OnRefresh"/>
     </ContentPage.ToolbarItems>
 

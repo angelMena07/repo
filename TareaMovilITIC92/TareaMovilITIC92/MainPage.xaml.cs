@@ -21,21 +21,57 @@ namespace TareaMovilITIC92
 
         public MainPage()
         {
-            BindingContext = tareas;
             InitializeComponent();
+            OnAppearing();
+            BindingContext = tareas;
         }
-
-        async public void OnRefresh(object sender, EventArgs e)
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await OnRefresh();
+        }
+        async public Task OnRefresh()
         {
             var tareasCollection = await manager.GetAll();
-            foreach(Tarea tarea in tareasCollection)
+            tareasList.ItemsSource = tareasCollection.OrderBy(item => item.Id).ToList();
+
+        }
+        async public void OnAddTarea(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AddTarea(manager));
+
+        }
+        async public void OnUpdateTarea(object sender, EventArgs e)
+        {
+            var mi = (MenuItem)sender;
+            Tarea tarea = (Tarea)mi.CommandParameter;
+            await Navigation.PushAsync(new UpdateTarea(manager, tarea));
+            await OnRefresh();
+
+        }
+
+        async public void OnDeleteTarea(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            Tarea tarea = (Tarea)mi.CommandParameter;
+            string itemToDelete = tarea.Id.ToString();
+            bool ans = await DisplayAlert("Alerta", "¿Desea eliminar la tarea " + tarea.Titulo + "?", "Ok", "Cancelar");
+            if (ans == true)
             {
-                if(tareas.All(t => t.id != tarea.id))
-                {
-                    tareas.Add(tarea);
-                }
-                
+                await manager.DeleteTareaAsync(itemToDelete);
+                await OnRefresh();
+
             }
+            else { }
+
+
+        }
+        async public void ItemTappedDetail(object sender, ItemTappedEventArgs e)
+        {
+
+            var details = e.Item as Tarea;
+            await Navigation.PushAsync(new TareaDetail(details));
+
         }
     }
 }
