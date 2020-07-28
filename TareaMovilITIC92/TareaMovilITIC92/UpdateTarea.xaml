@@ -10,7 +10,7 @@
             <Label Text="Editar tarea!" FontSize="Title" />
             <Entry x:Name="txtTitulo" Placeholder="Ingresa el titulo"/>
             <Entry x:Name="txtDetalle" Placeholder="Ingresa el detalle"/>
-            <Entry x:Name="txtLugar" Placeholder="Ingresa el lugar"/>
+            <Entry x:Name="txtMateria" Placeholder="Ingresa la materia"/>
             <Entry x:Name="txtFecha" Placeholder="Ingresa la fecha"/>
             <Button Clicked="OnUpdateTarea" Text="Editar" x:Name="btnGuardar"/>
         </StackLayout>

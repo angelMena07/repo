@@ -18,7 +18,7 @@ const Tarea = sequelize.define('Tarea', {
     detalle: {
         type: Sequelize.STRING,
     },
-    lugar: {
+    materia: {
         type: Sequelize.STRING,
     },
     fecha: {

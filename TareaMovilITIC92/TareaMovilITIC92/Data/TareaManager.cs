@@ -11,7 +11,7 @@ namespace TareaMovilITIC92.Data
 
     public class TareaManager
     {
-        const string url = "http://192.168.1.72:3000/tareas";
+        const string url = "http://192.168.0.102:3000/tareas";
 
         public async Task<IEnumerable<Tarea>> GetAll()
         {
@@ -20,13 +20,13 @@ namespace TareaMovilITIC92.Data
             return JsonConvert.DeserializeObject<IEnumerable<Tarea>>(result);
         }
 
-        public async Task<Tarea> Add(string titulo, string detalle, string lugar, string fecha)
+        public async Task<Tarea> Add(string titulo, string detalle, string materia, string fecha)
         {
             Tarea tarea = new Tarea()
             {
                 Titulo = titulo,
                 Detalle = detalle,
-                Lugar = lugar,
+                Materia = materia,
                 Fecha = fecha
             };
 
@@ -38,13 +38,13 @@ namespace TareaMovilITIC92.Data
             return JsonConvert.DeserializeObject<Tarea>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<Tarea> Update(long id, string titulo, string detalle, string lugar, string fecha)
+        public async Task<Tarea> Update(long id, string titulo, string detalle, string materia, string fecha)
         {
             Tarea tarea = new Tarea()
             {
                 Titulo = titulo,
                 Detalle = detalle,
-                Lugar = lugar,
+                Materia = materia,
                 Fecha = fecha
             };
 

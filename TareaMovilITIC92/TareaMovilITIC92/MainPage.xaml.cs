@@ -50,7 +50,7 @@ namespace TareaMovilITIC92
         {
             var mi = sender as MenuItem;
             var item = mi.CommandParameter as Tarea;
-            await Navigation.PushModalAsync(new UpdateTarea(manager, item.Id, item.Titulo, item.Detalle, item.Lugar, item.Fecha));
+            await Navigation.PushModalAsync(new UpdateTarea(manager, item.Id, item.Titulo, item.Detalle, item.Materia, item.Fecha));
         }
 
         async private void OnDeleteTarea(object sender, EventArgs e)
