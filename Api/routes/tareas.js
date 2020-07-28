@@ -1,9 +1,10 @@
 'use strict';
+var Tarea = require('../models/Tarea');
 var express = require('express');
 var router = express.Router();
-var Tarea = require('../models/Tarea');
-/* GET users listing. */
-router.get('/',async function (req, res) {
+
+/* GET tareas listing. */
+router.get('/', async function (req, res) {
     const tareas = await Tarea.findAll();
     res.json(tareas);
 });
@@ -19,7 +20,6 @@ router.post('/', async function (req, res) {
     });
     res.json(tarea);
 });
-
 /* Post tareas deleting. */
 router.delete('/:id', async function (req, res) {
     const id = parseInt(req.params.id)
@@ -31,7 +31,6 @@ router.delete('/:id', async function (req, res) {
             res.status(400).send(err)
         })
 });
-
 
 /* Post tareas updating. */
 router.put('/:id', async function (req, res) {
@@ -51,4 +50,6 @@ router.put('/:id', async function (req, res) {
             })
     })
 });
+
+
 module.exports = router;

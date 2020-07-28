@@ -17,31 +17,30 @@ namespace TareaMovilITIC92
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+
         private IList<Tarea> tareas = new ObservableCollection<Tarea>();
         private TareaManager manager = new TareaManager();
-
-
         public MainPage()
         {
-            BindingContext = tareas;
             InitializeComponent();
             OnAppearing();
-            
+            BindingContext = tareas;
+
+
         }
-        async void OnRefresh(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-             onRefresh();
+            base.OnAppearing();
+            await OnRefresh();
         }
 
-        async private void onRefresh()
+        async public Task OnRefresh()
         {
             var tareasCollection = await manager.GetAll();
-            tareas.Clear();
-            foreach (Tarea tarea in tareasCollection)
-            {
-                tareas.Add(tarea);
-            }
+            tareasList.ItemsSource = tareasCollection.OrderBy(item => item.Id).ToList();
+
         }
+
         async public void OnAddTarea(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddTarea(manager));
@@ -52,9 +51,11 @@ namespace TareaMovilITIC92
             var mi = (MenuItem)sender;
             Tarea tarea = (Tarea)mi.CommandParameter;
             await Navigation.PushAsync(new UpdateTarea(manager, tarea));
-            
+            await OnRefresh();
 
         }
+
+
 
         async public void OnDeleteTarea(object sender, EventArgs e)
         {
@@ -65,13 +66,14 @@ namespace TareaMovilITIC92
             if (ans == true)
             {
                 await manager.DeleteTareaAsync(itemToDelete);
-                
+                await OnRefresh();
 
             }
             else { }
 
 
         }
+
         async public void ItemTappedDetail(object sender, ItemTappedEventArgs e)
         {
 
