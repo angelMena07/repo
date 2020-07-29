@@ -21,7 +21,7 @@ namespace TareaMovilITIC92
 
         public async void OnSaveTarea(object sender, EventArgs e)
         {
-            await manager.Add(txtTitulo.Text, txtDetalle.Text, txtLugar.Text, txtFecha.Text);
+            await manager.Add(txtTitulo.Text, txtDetalle.Text, txtMateria.Text, txtFecha.Text);
         }
     }
 }

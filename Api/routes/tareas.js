@@ -11,11 +11,11 @@ router.get('/', async function (req, res) {
 
 /* GET tareas listing. */
 router.post('/', async function (req, res) {
-    let { Titulo, Detalle, Lugar, Fecha } = req.body;
+    let { Titulo, Detalle, Materia, Fecha } = req.body;
     let tarea = await Tarea.create({
         titulo: Titulo,
         detalle: Detalle,
-        lugar: Lugar,
+        materia: Materia,
         fecha: Fecha
     });
 
@@ -25,11 +25,11 @@ router.post('/', async function (req, res) {
 /* PUT tareas listing. */
 router.put('/:id', async function (req, res) {
     let id = req.params.id;
-    let { Titulo, Detalle, Lugar, Fecha } = req.body;
+    let { Titulo, Detalle, Materia, Fecha } = req.body;
     let tarea = await Tarea.findByPk(id);
     tarea.titulo = Titulo;
     tarea.detalle = Detalle;
-    tarea.lugar = Lugar;
+    tarea.materia = Materia,
     tarea.fecha = Fecha;
     await tarea.save();
     res.json(tarea);
