@@ -3,13 +3,13 @@ var Tarea = require('../models/Tarea');
 var express = require('express');
 var router = express.Router();
 
-/* GET tareas listing. */
-router.get('/', async function (req, res) {
+
+router.get('/tarea', async function (req, res) {
     const tareas = await Tarea.findAll();
     res.json(tareas);
 });
 
-/* GET tareas listing. */
+
 router.post('/', async function (req, res) {
     let { Titulo, Detalle, Materia, Fecha } = req.body;
     let tarea = await Tarea.create({
@@ -22,7 +22,7 @@ router.post('/', async function (req, res) {
     res.json(tarea);
 });
 
-/* PUT tareas listing. */
+
 router.put('/:id', async function (req, res) {
     let id = req.params.id;
     let { Titulo, Detalle, Materia, Fecha } = req.body;
@@ -35,7 +35,7 @@ router.put('/:id', async function (req, res) {
     res.json(tarea);
 });
 
-/* DELETE tareas listing. */
+
 router.delete('/:id', async function (req, res) {
     let id = req.params.id;
     let tarea = await Tarea.findByPk(id);
